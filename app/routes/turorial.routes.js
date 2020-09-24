@@ -6,66 +6,38 @@ module.exports = app => {
 
   // Create a new Tutorial
   router.post("/", function(req, res){
-    db.login(req).then(function () {
-      tutorials.create(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this));
+    db.call(req, res, tutorials.create); 
   });
 
   // Retrieve all Tutorials
   router.get("/", function(req, res){
-    db.login(req).then(function () {
-      tutorials.findAll(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.findAll);
+  });
 
   // Retrieve all published Tutorials
   router.get("/published", function(req, res){
-    db.login(req).then(function () {
-      tutorials.findAllPublished(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.findAllPublished)
+  });
 
   // Retrieve a single Tutorial with id
   router.get("/:id", function(req, res){
-    db.login(req).then(function () {
-      tutorials.findOne(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.findOne)
+  });
 
   // Update a Tutorial with id
   router.put("/:id", function(req, res){
-    db.login(req).then(function () {
-      tutorials.update(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.update)
+  });
 
   // Delete a Tutorial with id
   router.delete("/:id", function(req, res){
-    db.login(req).then(function () {
-      tutorials.delete(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.delete)
+  });
 
   // Create a new Tutorial
   router.delete("/", function(req, res){
-    db.login(req).then(function () {
-      tutorials.deleteAll(req, res);
-    }.bind(this)).catch(function () {
-      process.exit();
-    }.bind(this))}
-  );
+    db.call(req, res, tutorials.deleteAll)
+  });
 
   app.use("/api/tutorials", router);
 };
