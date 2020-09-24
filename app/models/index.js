@@ -38,8 +38,8 @@ db._login = function (req) {
                 resolve();
             })
             .catch(err => {
-                console.log("Cannot connect to the database!", err);
-                process.exit(401); // Not authorised
+                res.status(401);
+                res.send('None shall pass');
             });
     }.bind(this));
     return oPromise;
