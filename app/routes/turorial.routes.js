@@ -6,7 +6,7 @@ module.exports = app => {
 
   // Create a new Tutorial
   router.post("/", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.create(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -15,7 +15,7 @@ module.exports = app => {
 
   // Retrieve all Tutorials
   router.get("/", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.findAll(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -24,7 +24,7 @@ module.exports = app => {
 
   // Retrieve all published Tutorials
   router.get("/published", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.findAllPublished(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -33,7 +33,7 @@ module.exports = app => {
 
   // Retrieve a single Tutorial with id
   router.get("/:id", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.findOne(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -42,7 +42,7 @@ module.exports = app => {
 
   // Update a Tutorial with id
   router.put("/:id", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.update(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -51,7 +51,7 @@ module.exports = app => {
 
   // Delete a Tutorial with id
   router.delete("/:id", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.delete(req, res);
     }.bind(this)).catch(function () {
       process.exit();
@@ -60,7 +60,7 @@ module.exports = app => {
 
   // Create a new Tutorial
   router.delete("/", function(req, res){
-    db.login("tpielaszkiewicz", "lubaczow1").then(function () {
+    db.login(req).then(function () {
       tutorials.deleteAll(req, res);
     }.bind(this)).catch(function () {
       process.exit();

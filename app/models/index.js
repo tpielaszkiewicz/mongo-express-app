@@ -1,4 +1,17 @@
 const dbConfig = require("../config/db.config.js");
+global.Buffer = global.Buffer || require('buffer').Buffer;
+// add global btoa and atob functions
+if (typeof btoa === 'undefined') {
+  global.btoa = function (str) {
+    return new Buffer.from(str, 'binary').toString('base64');
+  };
+}
+
+if (typeof atob === 'undefined') {
+  global.atob = function (b64Encoded) {
+    return new Buffer.from(b64Encoded, 'base64').toString('binary');
+  };
+}
 // const Promise = require('promise');
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -8,9 +21,12 @@ db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.tutorials = require("./tutorial.model.js")(mongoose);
 
-db.login = function (uname, pwd) {
+db.login = function (req) {
+   // var oHeaders = JSON.stringify(req.headers);
+    var sAuth = req.headers["authorization"];
+    var sUnamePwd = atob(sAuth);
     var oPromise = new Promise(function(resolve, reject){
-        var sPath = (process.env.MONGODB_URI) ? `mongodb://${uname}:${pwd}` + this.url : this.url;
+        var sPath = (process.env.MONGODB_URI) ? `mongodb://${sUnamePwd}` + this.url : this.url;
         this.mongoose
             .connect(sPath, {
                 useNewUrlParser: true,
