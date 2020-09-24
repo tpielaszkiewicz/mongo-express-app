@@ -10,7 +10,7 @@ db.tutorials = require("./tutorial.model.js")(mongoose);
 
 db.login = function (uname, pwd) {
     var oPromise = new Promise(function(resolve, reject){
-        var sPath = (process.env.MONGODB_URI) ? `mongodb://${uname}2:${pwd}` + this.url : this.url;
+        var sPath = (process.env.MONGODB_URI) ? `mongodb://${uname}:${pwd}` + this.url : this.url;
         this.mongoose
             .connect(sPath, {
                 useNewUrlParser: true,
