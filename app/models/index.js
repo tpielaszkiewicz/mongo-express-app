@@ -24,24 +24,31 @@ db.tutorials = require("./tutorial.model.js")(mongoose);
 db._login = function (req) {
     // var oHeaders = JSON.stringify(req.headers);
     var sAuth = req.headers["authorization"];
-    var sUnamePwd = atob(sAuth);
-    console.log(process.env.MONGODB_URI);
-    var oPromise = new Promise(function (resolve, reject) {
-        var sPath = (process.env.MONGODB_URI) ? `mongodb://${sUnamePwd}` + this.url : this.url;
-        this.mongoose
-            .connect(sPath, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            })
-            .then(() => {
-                console.log("Connected to the database!");
-                resolve();
-            })
-            .catch(err => {
-                res.status(401);
-                res.send('None shall pass');
-            });
-    }.bind(this));
+    try {
+        var sUnamePwd = atob(sAuth);
+        console.log(process.env.MONGODB_URI);
+        var oPromise = new Promise(function (resolve, reject) {
+            var sPath = (process.env.MONGODB_URI) ? `mongodb://${sUnamePwd}` + this.url : this.url;
+            this.mongoose
+                .connect(sPath, {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                })
+                .then(() => {
+                    console.log("Connected to the database!");
+                    resolve();
+                })
+                .catch(err => {
+                    res.status(401);
+                    res.send('None shall pass');
+                });
+        }.bind(this));
+    } catch {
+        res.status(401);
+        res.send('Error authenticating');
+        return Promise.resolve();
+    }
+
     return oPromise;
 }
 
@@ -55,7 +62,7 @@ db.call = function (req, res, fnHandler) {
         var oCallPromise = fnHandler.call(this, req, res);
         oCallPromise.then(function () {
             this._logout();
-        }.bind(this)).catch(function(){
+        }.bind(this)).catch(function () {
             res.status(500);
             res.send('Call failed');
         });
