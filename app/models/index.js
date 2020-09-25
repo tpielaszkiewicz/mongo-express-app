@@ -21,7 +21,7 @@ db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.tutorials = require("./tutorial.model.js")(mongoose);
 
-db._login = function (req) {
+db._login = function (req, res) {
     // var oHeaders = JSON.stringify(req.headers);
     var sAuth = req.headers["authorization"];
     try {
@@ -40,14 +40,11 @@ db._login = function (req) {
                     resolve();
                 })
                 .catch(err => {
-                    res.status(401);
-                    res.send('None shall pass');
+                    reject();
                 });
         }.bind(this));
     } catch {
-        res.status(401);
-        res.send('Error authenticating');
-        return Promise.resolve();
+        return Promise.reject();
     }
 
     return oPromise;
@@ -59,7 +56,7 @@ db._logout = function () {
 }
 
 db.call = function (req, res, fnHandler) {
-    this._login(req).then(function () {
+    this._login(req, res).then(function () {
         var oCallPromise = fnHandler.call(this, req, res);
         oCallPromise.then(function () {
             this._logout();
@@ -69,7 +66,7 @@ db.call = function (req, res, fnHandler) {
         });
     }.bind(this)).catch(function () {
         res.status(401);
-        res.send('None shall pass');
+        res.send('Authentication failed');
     });
 }
 
