@@ -28,7 +28,8 @@ db._login = function (req) {
         var sUnamePwd = atob(sAuth);
         console.log(process.env.MONGODB_URI);
         var oPromise = new Promise(function (resolve, reject) {
-            var sPath = (process.env.MONGODB_URI) ? `mongodb://${sUnamePwd}` + this.url : this.url;
+            // var sPath = (process.env.MONGODB_URI) ? `mongodb://${sUnamePwd}` + this.url : this.url;
+            var sPath = `mongodb://${sUnamePwd}` + this.url;
             this.mongoose
                 .connect(sPath, {
                     useNewUrlParser: true,
