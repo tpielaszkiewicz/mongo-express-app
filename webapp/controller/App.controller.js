@@ -3,12 +3,12 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator"
-], function(Controller, JSONModel, Filter, FilterOperator) {
+], function (Controller, JSONModel, Filter, FilterOperator) {
 	"use strict";
 
 	return Controller.extend("sap.ui.demo.todo.controller.App", {
 
-		onInit: function() {
+		onInit: function () {
 			this.aSearchFilters = [];
 			this.aTabFilters = [];
 		},
@@ -16,7 +16,19 @@ sap.ui.define([
 		/**
 		 * Adds a new todo item to the bottom of the list.
 		 */
-		addTodo: function() {
+		addTodo: function () {
+
+			// Check access to db
+			fetch('/api/tutorials', {
+				method: 'GET',
+				headers: new Headers({
+					'Authorization': 'Basic ' + btoa('tpielaszkiewicz:lubaczow1')
+				})
+			}).then(response => response.json())
+				.then(data => { console.log("Tutorials are listed below:"); 
+								console.log(data); 
+							});
+
 			var oModel = this.getView().getModel();
 			var aTodos = oModel.getProperty("/todos").map(function (oTodo) { return Object.assign({}, oTodo); });
 
@@ -32,7 +44,7 @@ sap.ui.define([
 		/**
 		 * Removes all completed items from the todo list.
 		 */
-		clearCompleted: function() {
+		clearCompleted: function () {
 			var oModel = this.getView().getModel();
 			var aTodos = oModel.getProperty("/todos").map(function (oTodo) { return Object.assign({}, oTodo); });
 
@@ -50,11 +62,11 @@ sap.ui.define([
 		/**
 		 * Updates the number of items not yet completed
 		 */
-		updateItemsLeftCount: function() {
+		updateItemsLeftCount: function () {
 			var oModel = this.getView().getModel();
 			var aTodos = oModel.getProperty("/todos") || [];
 
-			var iItemsLeft = aTodos.filter(function(oTodo) {
+			var iItemsLeft = aTodos.filter(function (oTodo) {
 				return oTodo.completed !== true;
 			}).length;
 
@@ -65,7 +77,7 @@ sap.ui.define([
 		 * Trigger search for specific items. The removal of items is disable as long as the search is used.
 		 * @param {sap.ui.base.Event} oEvent Input changed event
 		 */
-		onSearch: function(oEvent) {
+		onSearch: function (oEvent) {
 			var oModel = this.getView().getModel();
 
 			// First reset current filters
@@ -84,7 +96,7 @@ sap.ui.define([
 			this._applyListFilters();
 		},
 
-		onFilter: function(oEvent) {
+		onFilter: function (oEvent) {
 			// First reset current filters
 			this.aTabFilters = [];
 
@@ -101,13 +113,13 @@ sap.ui.define([
 					break;
 				case "all":
 				default:
-					// Don't use any filter
+				// Don't use any filter
 			}
 
 			this._applyListFilters();
 		},
 
-		_applyListFilters: function() {
+		_applyListFilters: function () {
 			var oList = this.byId("todoList");
 			var oBinding = oList.getBinding("items");
 
