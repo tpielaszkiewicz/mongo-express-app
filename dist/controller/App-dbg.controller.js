@@ -22,7 +22,7 @@ sap.ui.define([
 			fetch('/api/tutorials', {
 				method: 'GET',
 				headers: new Headers({
-					'Authorization': 'Basic ' + btoa('tpielaszkiewicz:lubaczow1')
+					'Authorization': btoa('tpielaszkiewicz:lubaczow1')
 				})
 			}).then(response => response.json())
 				.then(data => { console.log("Tutorials are listed below:"); 
