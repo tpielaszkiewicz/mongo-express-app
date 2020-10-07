@@ -21,9 +21,29 @@
     "buffer": "^5.6.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.8.10"
+    "mongoose": "^5.8.10",
+    "@openui5/sap.m": "^1.73.1",
+    "@openui5/sap.ui.core": "^1.73.1",
+    "@openui5/themelib_sap_fiori_3": "^1.73.1",
+    "@ui5/cli": "^1.14.0",
+    "@ui5/webcomponents": "^1.0.0-rc.7",
+    "child-process-promise": "^2.2.1"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "@ui5/cli": "^1.14.0",
+    "@ui5/webcomponents": "^1.0.0-rc.7",
+    "child-process-promise": "^2.2.1",
+    "child_process": "^1.0.2",
+    "eslint": "^5.16.0",
+    "geolocation": "^0.2.0",
+    "grunt": "^1.0.4",
+    "gulp": "^4.0.2",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.1",
+    "karma-ui5": "^1.1.0",
+    "local-web-server": "^3.0.7",
+    "rimraf": "^3.0.0"
   }
 }

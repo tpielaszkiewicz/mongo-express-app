@@ -35,6 +35,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
+app.use('/ui5App', express.static(__dirname + '/dist'));
+
 require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests
